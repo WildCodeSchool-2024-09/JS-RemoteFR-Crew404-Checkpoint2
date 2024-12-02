@@ -9,6 +9,7 @@ import App from "./App";
 
 import CupcakeDetails from "./pages/CupcakeDetails";
 import CupcakeList from "./pages/CupcakeList";
+import Error404 from "./pages/Error404";
 import Home from "./pages/Home";
 import Instructions from "./pages/Instructions";
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/cupcakes/:id",
         element: <CupcakeDetails />,
+      },
+      {
+        path: "*",
+        element: <Error404 />,
       },
     ],
   },
