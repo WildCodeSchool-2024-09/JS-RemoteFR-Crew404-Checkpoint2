@@ -34,3 +34,8 @@ test('"lorem ipsum..." et "e"', () => {
     ),
   ).toBe(37);
 });
+
+
+
+
+export default countLetters

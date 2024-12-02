@@ -1,71 +1,72 @@
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Cupcake from "../components/Cupcake";
+import.meta.env.VITE_API_URL
 
-/* ************************************************************************* */
-const sampleCupcakes = [
-  {
-    id: 10,
-    accessory_id: "4",
-    accessory: "wcs",
-    color1: "blue",
-    color2: "white",
-    color3: "red",
-    name: "France",
-  },
-  {
-    id: 11,
-    accessory_id: "4",
-    accessory: "wcs",
-    color1: "yellow",
-    color2: "red",
-    color3: "black",
-    name: "Germany",
-  },
-  {
-    id: 27,
-    accessory_id: "5",
-    accessory: "christmas-candy",
-    color1: "yellow",
-    color2: "blue",
-    color3: "blue",
-    name: "Sweden",
-  },
-];
+type CupcakeArray = {
+  id: number;
+  accessory_id: string;
+  accessory: string;
+  color1: string;
+  color2: string;
+  color3: string;
+  name: string;
+}[];
 
-type CupcakeArray = typeof sampleCupcakes;
-
-/* you can use sampleCupcakes if you're stucked on step 1 */
-/* if you're fine with step 1, just ignore this ;) */
-/* ************************************************************************* */
+type AccessoryArray = { id: number; name: string; slug: string }[];
 
 function CupcakeList() {
-  // Step 1: get all cupcakes
-  console.info(useLoaderData() as CupcakeArray);
+  // Étape 1 : obtenir tous les cupcakes
+  const { cupcakes } = useLoaderData() as { cupcakes: CupcakeArray };
 
-  // Step 3: get all accessories
+  // Étape 3 : obtenir tous les accessoires
+  const [accessories, setAccessories] = useState<AccessoryArray>([]);
+  const [selectedAccessory, setSelectedAccessory] = useState("");
 
-  // Step 5: create filter state
+  useEffect(() => {
+    fetch("http://localhost:3310/api/accessories")
+      .then(response => response.json())
+      .then(data => {
+        setAccessories(data);
+        console.info(data); // Pour vérifier les données dans la console
+      })
+      .catch(error => console.error("Erreur lors du chargement des accessoires", error));
+  }, []);
+
+  // Étape 5 : créer l'état de filtre
+  const filteredCupcakes = selectedAccessory
+    ? cupcakes.filter(cupcake => cupcake.accessory_id === selectedAccessory)
+    : cupcakes;
 
   return (
     <>
       <h1>My cupcakes</h1>
       <form className="center">
         <label htmlFor="cupcake-select">
-          {/* Step 5: use a controlled component for select */}
-          Filter by{" "}
-          <select id="cupcake-select">
+          Filtrer par{" "}
+          <select
+            id="cupcake-select"
+            onChange={(e) => setSelectedAccessory(e.target.value)}
+            value={selectedAccessory}
+          >
             <option value="">---</option>
-            {/* Step 4: add an option for each accessory */}
+            {/* Étape 4 : ajouter une option pour chaque accessoire */}
+            {accessories.map((accessory) => (
+              <option key={accessory.id} value={accessory.id}>
+                {accessory.name}
+              </option>
+            ))}
           </select>
         </label>
       </form>
       <ul className="cupcake-list" id="cupcake-list">
-        {/* Step 2: repeat this block for each cupcake */}
-        {/* Step 5: filter cupcakes before repeating */}
-        <li className="cupcake-item">
-          <Cupcake data={sampleCupcakes[0]} />
-        </li>
-        {/* end of block */}
+        {/* Étape 2 : répéter ce bloc pour chaque cupcake */}
+        {filteredCupcakes.map(cupcake => (
+          <li className="cupcake-item" key={cupcake.id}>
+            <Cupcake data={cupcake} />
+          </li>
+        ))}
+        {/* fin du bloc */}
       </ul>
     </>
   );
