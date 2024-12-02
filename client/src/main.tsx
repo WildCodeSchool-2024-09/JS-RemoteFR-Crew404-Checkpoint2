@@ -1,15 +1,21 @@
-// Import necessary modules from React and React Router
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
-/* ************************************************************************* */
+import { type LoaderFunction, json } from "react-router-dom";
 
 import App from "./App";
-
 import CupcakeList from "./pages/CupcakeList";
 import Home from "./pages/Home";
 import Instructions from "./pages/Instructions";
+
+const cupcakesLoader: LoaderFunction = async () => {
+  const response = await fetch("http://localhost:3310/api/cupcakes");
+  if (!response.ok) {
+    throw new Error("Échec de la récupération des cupcakes");
+  }
+  const data = await response.json();
+  return json(data);
+};
 
 const router = createBrowserRouter([
   {
@@ -27,21 +33,17 @@ const router = createBrowserRouter([
       {
         path: "/cupcakes",
         element: <CupcakeList />,
-        // Step 1: load data here
+        loader: cupcakesLoader,
       },
     ],
   },
 ]);
 
-/* ************************************************************************* */
-
-// Find the root element in the HTML document
 const rootElement = document.getElementById("root");
 if (rootElement == null) {
-  throw new Error(`Your HTML Document should contain a <div id="root"></div>`);
+  throw new Error(`Votre document HTML doit contenir un <div id="root"></div>`);
 }
 
-// Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
     <RouterProvider router={router} />
