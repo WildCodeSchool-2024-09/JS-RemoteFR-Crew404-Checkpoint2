@@ -1,7 +1,11 @@
 // Import necessary modules from React and React Router
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createBrowserRouter, type LoaderFunction } from "react-router-dom";
+import {
+  type LoaderFunction,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 
 /* ************************************************************************* */
 
@@ -12,12 +16,12 @@ import Home from "./pages/Home";
 import Instructions from "./pages/Instructions";
 
 const cupcakesLoader: LoaderFunction = async () => {
-  const response = await fetch('http://localhost:3310/api/cupcakes');
+  const response = await fetch("http://localhost:3310/api/cupcakes");
   if (!response.ok) {
-    throw new Error('Erreur lors de la récupération des cupcakes');
+    throw new Error("Erreur lors de la récupération des cupcakes");
   }
   const cupcakes = await response.json();
-  console.info('Cupcakes récupérés :', cupcakes);
+  console.info("Cupcakes :", cupcakes);
   return cupcakes;
 };
 
@@ -38,7 +42,7 @@ const router = createBrowserRouter([
         path: "/cupcakes",
         element: <CupcakeList />,
         // Step 1: load data here
-        loader: cupcakesLoader
+        loader: cupcakesLoader,
       },
     ],
   },
