@@ -1,6 +1,6 @@
 import "./Cupcake.css";
 
-interface CupcakeProps {
+interface CupcakeData {
   data: {
     accessory: string;
     color1: string;
@@ -10,7 +10,7 @@ interface CupcakeProps {
   };
 }
 
-function Cupcake({ data }: CupcakeProps) {
+function Cupcake({ data }: CupcakeData) {
   return (
     <div className="cupcake-container">
       <div className="cupcake">
