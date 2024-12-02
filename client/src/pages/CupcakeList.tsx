@@ -19,9 +19,6 @@ interface AccessoryArray {
 function CupcakeList() {
   const cupcakes = useLoaderData() as CupcakeListData[];
 
-  const [selectedAccessory, setSelectedAccessory] = useState<string | null>(
-    null,
-  );
   const [accessoryList, setAccessoryList] = useState<AccessoryArray[]>([]);
 
   useEffect(() => {
@@ -32,6 +29,14 @@ function CupcakeList() {
   }, []);
 
   // Step 5: create filter state
+  const [selectedAccessory, setSelectedAccessory] = useState<string | null>(
+    null,
+  );
+
+  // Filtrage des cupcakes en fonction de l'accessoire sélectionné
+  const filteredCupcakes = selectedAccessory
+    ? cupcakes.filter((cupcake) => cupcake.accessory === selectedAccessory)
+    : cupcakes;
 
   return (
     <>
@@ -40,7 +45,11 @@ function CupcakeList() {
         <label htmlFor="cupcake-select">
           {/* Step 5: use a controlled component for select */}
           Filter by{" "}
-          <select id="cupcake-select">
+          <select
+            id="cupcake-select"
+            value={selectedAccessory || ""}
+            onChange={(e) => setSelectedAccessory(e.target.value)}
+          >
             <option value="">---</option>
             {accessoryList.map((accessory) => (
               <option key={accessory.id} value={accessory.slug}>
@@ -52,13 +61,11 @@ function CupcakeList() {
         </label>
       </form>
       <ul className="cupcake-list">
-        {/* Step 2: repeat this block for each cupcake */}
-        {cupcakes.map((cupcake) => (
+        {filteredCupcakes.map((cupcake) => (
           <li key={cupcake.id} className="cupcake-item">
             <Cupcake data={cupcake} />
           </li>
         ))}
-        {/* Step 5: filter cupcakes before repeating */}
         {/* end of block */}
       </ul>
     </>
