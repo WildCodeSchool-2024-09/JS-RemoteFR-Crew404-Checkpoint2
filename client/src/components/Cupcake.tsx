@@ -1,6 +1,6 @@
 import "./Cupcake.css";
 
-interface CupcakeProps {
+type CupcakeProps = {
   data: {
     accessory: string;
     color1: string;
@@ -8,7 +8,7 @@ interface CupcakeProps {
     color3: string;
     name: string;
   };
-}
+};
 
 function Cupcake({ data }: CupcakeProps) {
   return (
