@@ -1,15 +1,14 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import CupcakeList from "./pages/CupcakeList";
-import { cupcakeLoader } from "./pages/CupcakeLoaders";
 import Home from "./pages/Home";
 
 function AppLayout() {
   return (
     <>
-      <NavBar /> {/* Navigation toujours visible */}
+      <NavBar />
       <main className="main-container">
-        <Outlet /> {/* Les pages enfants s'affichent ici */}
+        <Outlet />
       </main>
     </>
   );
@@ -22,12 +21,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />, // Page d'accueil
+        element: <Home />,
       },
       {
         path: "/cupcakes",
-        element: <CupcakeList />, // Liste des cupcakes
-        loader: cupcakeLoader, // Chargement des données pour la liste
+        element: <CupcakeList />,
       },
     ],
   },
