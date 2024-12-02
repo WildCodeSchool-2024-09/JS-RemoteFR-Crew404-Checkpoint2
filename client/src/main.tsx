@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
+import CupcakeDetails from "./pages/CupcakeDetails";
 import CupcakeList from "./pages/CupcakeList";
 import Home from "./pages/Home";
 import Instructions from "./pages/Instructions";
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             console.error(error);
           }
         },
+      },
+      {
+        path: "/cupcakes/:id",
+        element: <CupcakeDetails />,
       },
     ],
   },
