@@ -11,6 +11,7 @@ import {
 
 import App from "./App";
 
+import CupcakeDetails from "./pages/CupcakeDetails";
 import CupcakeList from "./pages/CupcakeList";
 import Home from "./pages/Home";
 import Instructions from "./pages/Instructions";
@@ -43,6 +44,19 @@ const router = createBrowserRouter([
         element: <CupcakeList />,
         // Step 1: load data here
         loader: cupcakesLoader,
+      },
+      {
+        path: "/cupcakes/:id",
+        element: <CupcakeDetails />,
+        loader: async ({ params }) => {
+          const response = await fetch(
+            `http://localhost:3310/api/cupcakes/${params.id}`,
+          );
+          if (!response.ok) {
+            throw new Error("Cupcake non trouvé");
+          }
+          return response.json();
+        },
       },
     ],
   },
