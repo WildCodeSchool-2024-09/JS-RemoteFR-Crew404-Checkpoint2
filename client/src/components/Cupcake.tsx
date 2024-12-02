@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./Cupcake.css";
 
 interface CupcakeData {
