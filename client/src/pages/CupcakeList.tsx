@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Cupcake from "../components/Cupcake";
+
+type AccessoryArray = { id: number; name: string; slug: string }[];
 
 /* ************************************************************************* */
 const sampleCupcakes = [
@@ -44,8 +47,28 @@ function CupcakeList() {
   console.info(cupcakes);
 
   // Step 3: get all accessories
+  const [accessories, setAccessories] = useState<AccessoryArray>([]);
+  useEffect(() => {
+    const fetchAccessories = async () => {
+      try {
+        const res = await fetch("http://localhost:3310/api/accessories");
+        const data = (await res.json()) as AccessoryArray;
+        console.info(data);
+        setAccessories(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAccessories();
+  }, []);
 
   // Step 5: create filter state
+
+  // const [filter, setFilter] = useState("");
+  // const handleChange = (event) => {
+  //   setFilter(event.target.value);
+  // };
 
   return (
     <>
@@ -56,7 +79,9 @@ function CupcakeList() {
           Filter by{" "}
           <select id="cupcake-select">
             <option value="">---</option>
-            {/* Step 4: add an option for each accessory */}
+            {accessories.map((accessories) => (
+              <option key={accessories.id}>{accessories.name}</option>
+            ))}
           </select>
         </label>
       </form>
@@ -68,6 +93,17 @@ function CupcakeList() {
             <Cupcake data={cupcake} />
           </li>
         ))}
+
+        {/* tentative pour filter, ça a misérablement échoué */}
+        {/* {cupcakes
+          .filter((cupcake) => {
+            return cupcake.name === filter;
+          })
+          .map((cupcake) => (
+            <li className="cupcake-item" key={cupcake.id}>
+              <Cupcake data={cupcake} />
+            </li>
+          ))} */}
         {/* end of block */}
       </ul>
     </>
