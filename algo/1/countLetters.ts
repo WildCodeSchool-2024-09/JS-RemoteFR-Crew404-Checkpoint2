@@ -10,8 +10,11 @@ Exemples :
 */
 
 function countLetters(givenString: string, letter: string): number {
-  // Your code here !
-  return 0;
+  if (letter.length !== 1) {
+    throw new Error("Letter doit être 1 caractère");
+  }
+
+  return givenString.split(letter).length - 1;
 }
 
 export default countLetters;
