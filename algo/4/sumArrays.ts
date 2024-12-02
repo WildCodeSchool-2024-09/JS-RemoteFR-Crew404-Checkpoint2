@@ -10,8 +10,25 @@ sumArr( ["2", "5", "3"], ["2", "4", "9", "5", "5"] ) should return ["4", "9", "1
 */
 
 function sumArr(arrayA: string[], arrayB: string[]): string[] {
-  // Your code here !
-  return [];
+  let maxSizeArray = 0;
+  const result = [];
+  const numA = 0;
+  const numB = 0;
+
+  if (arrayA.length >= arrayB.length) {
+    maxSizeArray = arrayA.length;
+  } else {
+    maxSizeArray = arrayB.length;
+  }
+
+  for (let i = 0; i < maxSizeArray; i++) {
+    const a = Number(arrayA[i]) || numA;
+    const b = Number(arrayB[i]) || numB;
+
+    result.push((a + b).toString());
+  }
+
+  return result;
 }
 
 export default sumArr;
