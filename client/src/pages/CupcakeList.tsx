@@ -42,7 +42,12 @@ function CupcakeList() {
   }, []);
 
   const filteredCupcakes = selectedAccessory
-    ? cupcakes.filter((cupcake) => cupcake.accessory === selectedAccessory)
+    ? cupcakes.filter((cupcake) => {
+        return (
+          cupcake.accessory.toLowerCase().trim() ===
+          selectedAccessory.toLowerCase().trim()
+        );
+      })
     : cupcakes;
 
   return (
